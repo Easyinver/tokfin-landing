@@ -9,6 +9,80 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      subscriptions: {
+        Row: {
+          amount: number
+          created_at: string | null
+          id: string
+          next_renewal_date: string
+          start_date: string
+          status: string
+          subscription_pack: string
+          updated_at: string | null
+          user_id: number
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          id?: string
+          next_renewal_date: string
+          start_date?: string
+          status?: string
+          subscription_pack: string
+          updated_at?: string | null
+          user_id: number
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          id?: string
+          next_renewal_date?: string
+          start_date?: string
+          status?: string
+          subscription_pack?: string
+          updated_at?: string | null
+          user_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      users: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          id: number
+          joined_at: string | null
+          simulation_batch: string | null
+          subscription_pack: string | null
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: number
+          joined_at?: string | null
+          simulation_batch?: string | null
+          subscription_pack?: string | null
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: number
+          joined_at?: string | null
+          simulation_batch?: string | null
+          subscription_pack?: string | null
+          username?: string | null
+        }
+        Relationships: []
+      }
       waitlist_subscriptions: {
         Row: {
           created_at: string | null
