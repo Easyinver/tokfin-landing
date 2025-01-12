@@ -23,6 +23,24 @@ const whyChooseFeatures = [
   },
 ];
 
+const keyInsights = [
+  {
+    number: "01",
+    title: "Multithreaded Block Graph",
+    description: "First, we solved the blockchain scaling problem with a multithreaded block graph which scales up performances massively.",
+  },
+  {
+    number: "02",
+    title: "Tech Innovations",
+    description: "Second, we introduced tech innovations to support decentralization: autonomous smart contracts with built-in update mechanisms, and on-chain web page storage to bypass traditional centralized web servers.",
+  },
+  {
+    number: "03",
+    title: "Massa Distribution",
+    description: "Third, we designed the Massa coin distribution to give full control to the community and keep the database safe.",
+  },
+];
+
 const ecosystemFeatures = [
   {
     icon: Wallet,
@@ -75,6 +93,32 @@ export const Features = () => {
                   {feature.title}
                 </h3>
                 <p className="text-gray-400">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-black/10">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-sui-blue to-sui-purple bg-clip-text text-transparent">
+            Key Innovations
+          </h2>
+          <div className="space-y-8">
+            {keyInsights.map((insight) => (
+              <div
+                key={insight.number}
+                className="flex flex-col md:flex-row items-start gap-6 p-8 rounded-xl bg-black/30 backdrop-blur-sm border border-gray-800 hover:border-sui-teal transition-colors"
+              >
+                <span className="text-4xl md:text-6xl font-bold text-sui-teal">
+                  {insight.number}
+                </span>
+                <div>
+                  <h3 className="text-xl md:text-2xl font-semibold mb-2 text-white">
+                    {insight.title}
+                  </h3>
+                  <p className="text-gray-400 text-lg">{insight.description}</p>
+                </div>
               </div>
             ))}
           </div>
