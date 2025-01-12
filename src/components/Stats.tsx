@@ -1,4 +1,17 @@
+import { useEffect, useState } from "react";
+
 export const Stats = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Ensure the component is mounted before showing stats
+    setIsVisible(true);
+  }, []);
+
+  if (!isVisible) {
+    return null;
+  }
+
   return (
     <section id="stats" className="py-20 bg-black/30">
       <div className="container mx-auto px-4">
