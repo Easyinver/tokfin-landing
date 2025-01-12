@@ -7,60 +7,30 @@ import { useToast } from "@/components/ui/use-toast";
 export const Hero = () => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
-  const [isMouseInside, setIsMouseInside] = useState(false);
+  const [position, setPosition] = useState({ x: 50, y: 50 });
   const animationFrameRef = useRef<number>();
   const velocityRef = useRef({ x: 2, y: 2 });
   const { toast } = useToast();
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const hero = document.getElementById('hero-section');
-      if (hero) {
-        const rect = hero.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        const y = ((e.clientY - rect.top) / rect.height) * 100;
-        setMousePosition({ x, y });
-      }
-    };
-
-    const handleMouseEnter = () => setIsMouseInside(true);
-    const handleMouseLeave = () => setIsMouseInside(false);
-
-    const hero = document.getElementById('hero-section');
-    if (hero) {
-      hero.addEventListener('mousemove', handleMouseMove);
-      hero.addEventListener('mouseenter', handleMouseEnter);
-      hero.addEventListener('mouseleave', handleMouseLeave);
-      return () => {
-        hero.removeEventListener('mousemove', handleMouseMove);
-        hero.removeEventListener('mouseenter', handleMouseEnter);
-        hero.removeEventListener('mouseleave', handleMouseLeave);
-      };
-    }
-  }, []);
-
-  useEffect(() => {
     const animate = () => {
-      if (!isMouseInside) {
-        setMousePosition(prev => {
-          const newX = prev.x + velocityRef.current.x;
-          const newY = prev.y + velocityRef.current.y;
+      setPosition(prev => {
+        const newX = prev.x + velocityRef.current.x;
+        const newY = prev.y + velocityRef.current.y;
 
-          // Bounce off edges
-          if (newX >= 100 || newX <= 0) {
-            velocityRef.current.x *= -1;
-          }
-          if (newY >= 100 || newY <= 0) {
-            velocityRef.current.y *= -1;
-          }
+        // Bounce off edges
+        if (newX >= 100 || newX <= 0) {
+          velocityRef.current.x *= -1;
+        }
+        if (newY >= 100 || newY <= 0) {
+          velocityRef.current.y *= -1;
+        }
 
-          return {
-            x: Math.max(0, Math.min(100, newX)),
-            y: Math.max(0, Math.min(100, newY))
-          };
-        });
-      }
+        return {
+          x: Math.max(0, Math.min(100, newX)),
+          y: Math.max(0, Math.min(100, newY))
+        };
+      });
       animationFrameRef.current = requestAnimationFrame(animate);
     };
 
@@ -71,7 +41,7 @@ export const Hero = () => {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [isMouseInside]);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,7 +89,7 @@ export const Hero = () => {
           alt="QR Code Background"
           className="w-32 h-32 opacity-20 transition-transform duration-300 ease-out"
           style={{
-            transform: `translate(${mousePosition.x - 50}%, ${mousePosition.y - 50}%) rotate(${mousePosition.x / 5}deg)`
+            transform: `translate(${position.x - 50}%, ${position.y - 50}%) rotate(${position.x / 5}deg)`
           }}
         />
       </div>
