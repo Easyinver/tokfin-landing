@@ -1,8 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export const Navbar = () => {
+  const location = useLocation();
+
+  const handleFeatureClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (location.pathname !== '/') {
+      window.location.href = '/#features';
+      return;
+    }
+    const featuresSection = document.getElementById('features');
+    if (featuresSection) {
+      featuresSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-md">
       <div className="container mx-auto px-4">
@@ -21,7 +36,11 @@ export const Navbar = () => {
             <Link to="/innovation" className="text-white hover:text-sui-teal transition-colors">
               Innovation
             </Link>
-            <a href="#features" className="text-white hover:text-sui-teal transition-colors">
+            <a 
+              href="#features" 
+              className="text-white hover:text-sui-teal transition-colors"
+              onClick={handleFeatureClick}
+            >
               Features
             </a>
             <a href="#stats" className="text-white hover:text-sui-teal transition-colors">
