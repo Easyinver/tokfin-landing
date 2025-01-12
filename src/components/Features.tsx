@@ -1,35 +1,25 @@
-import { Wallet, Coins, Image, Users, Gamepad2, Wrench } from "lucide-react";
+import { Zap, Shield, Cpu, Rocket } from "lucide-react";
 
 const features = [
   {
-    icon: Wallet,
-    title: "Wallets",
-    description: "Different wallets that will allow you to interact with Massa Blockchain, as you are used to!",
+    icon: Zap,
+    title: "Lightning Fast",
+    description: "Process thousands of transactions per second with minimal latency.",
   },
   {
-    icon: Coins,
-    title: "DeFi",
-    description: "dApps, DEX, and others using Massa Smart Contracts for transactions, trading, staking...",
+    icon: Shield,
+    title: "Secure by Design",
+    description: "Built with security-first principles and advanced cryptography.",
   },
   {
-    icon: Image,
-    title: "NFTs",
-    description: "Projects using NFTs as one of their main feature and usecase, as well as art projects.",
+    icon: Cpu,
+    title: "Smart Contracts",
+    description: "Write safe smart contracts with Move programming language.",
   },
   {
-    icon: Users,
-    title: "Social",
-    description: "Web3 Social Networks allow innovative ways to interact with others & to connect to the World.",
-  },
-  {
-    icon: Gamepad2,
-    title: "Games",
-    description: "GameFi and Web3 gaming bring the blockchain at the core of the experience.",
-  },
-  {
-    icon: Wrench,
-    title: "Tools",
-    description: "All necessary tools to build with Massa, explore, interact with the blockchain.",
+    icon: Rocket,
+    title: "Scalable",
+    description: "Horizontal scaling for unlimited growth potential.",
   },
 ];
 
@@ -37,10 +27,10 @@ export const Features = () => {
   return (
     <section id="features" className="py-20">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-          Ecosystem
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-sui-blue to-sui-purple bg-clip-text text-transparent">
+          Why Choose Sui?
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature) => (
             <div
               key={feature.title}
