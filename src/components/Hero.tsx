@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,7 +7,26 @@ import { useToast } from "@/components/ui/use-toast";
 export const Hero = () => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const { toast } = useToast();
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const hero = document.getElementById('hero-section');
+      if (hero) {
+        const rect = hero.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        setMousePosition({ x, y });
+      }
+    };
+
+    const hero = document.getElementById('hero-section');
+    if (hero) {
+      hero.addEventListener('mousemove', handleMouseMove);
+      return () => hero.removeEventListener('mousemove', handleMouseMove);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,12 +64,15 @@ export const Hero = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 flex items-center justify-center">
+    <div id="hero-section" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <img 
           src="/lovable-uploads/4eaad9f8-987c-462b-9e3f-da00a061a16c.png"
           alt="QR Code Background"
-          className="w-32 h-32 opacity-20 animate-float pointer-events-none"
+          className="w-32 h-32 opacity-20 transition-transform duration-300 ease-out"
+          style={{
+            transform: `translate(${mousePosition.x - 50}%, ${mousePosition.y - 50}%) rotate(${mousePosition.x / 5}deg)`
+          }}
         />
       </div>
       <div className="container mx-auto px-4 text-center relative z-10">
