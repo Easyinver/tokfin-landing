@@ -46,17 +46,15 @@ export const Hero = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      <img 
+        src="/lovable-uploads/4eaad9f8-987c-462b-9e3f-da00a061a16c.png"
+        alt="QR Code Background"
+        className="absolute w-32 h-32 opacity-20 animate-float pointer-events-none"
+      />
       <div className="container mx-auto px-4 text-center">
         <div className="relative inline-block">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-sui-blue via-sui-purple to-sui-teal bg-clip-text text-transparent animate-float relative">
-            The Next <span className="relative inline-block">
-              <img 
-                src="/lovable-uploads/4eaad9f8-987c-462b-9e3f-da00a061a16c.png"
-                alt="QR Code Background"
-                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 opacity-10 animate-[spin_20s_linear_infinite] pointer-events-none"
-              />
-              Generation
-            </span> Blockchain
+            The Next Generation Blockchain
           </h1>
         </div>
         <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
