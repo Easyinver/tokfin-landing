@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,7 +7,10 @@ import { useToast } from "@/components/ui/use-toast";
 export const Hero = () => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
+  const [isMouseInside, setIsMouseInside] = useState(false);
+  const animationFrameRef = useRef<number>();
+  const velocityRef = useRef({ x: 2, y: 2 });
   const { toast } = useToast();
 
   useEffect(() => {
@@ -21,12 +24,54 @@ export const Hero = () => {
       }
     };
 
+    const handleMouseEnter = () => setIsMouseInside(true);
+    const handleMouseLeave = () => setIsMouseInside(false);
+
     const hero = document.getElementById('hero-section');
     if (hero) {
       hero.addEventListener('mousemove', handleMouseMove);
-      return () => hero.removeEventListener('mousemove', handleMouseMove);
+      hero.addEventListener('mouseenter', handleMouseEnter);
+      hero.addEventListener('mouseleave', handleMouseLeave);
+      return () => {
+        hero.removeEventListener('mousemove', handleMouseMove);
+        hero.removeEventListener('mouseenter', handleMouseEnter);
+        hero.removeEventListener('mouseleave', handleMouseLeave);
+      };
     }
   }, []);
+
+  useEffect(() => {
+    const animate = () => {
+      if (!isMouseInside) {
+        setMousePosition(prev => {
+          const newX = prev.x + velocityRef.current.x;
+          const newY = prev.y + velocityRef.current.y;
+
+          // Bounce off edges
+          if (newX >= 100 || newX <= 0) {
+            velocityRef.current.x *= -1;
+          }
+          if (newY >= 100 || newY <= 0) {
+            velocityRef.current.y *= -1;
+          }
+
+          return {
+            x: Math.max(0, Math.min(100, newX)),
+            y: Math.max(0, Math.min(100, newY))
+          };
+        });
+      }
+      animationFrameRef.current = requestAnimationFrame(animate);
+    };
+
+    animationFrameRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [isMouseInside]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,7 +109,10 @@ export const Hero = () => {
   };
 
   return (
-    <div id="hero-section" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <div 
+      id="hero-section" 
+      className="min-h-screen flex items-center justify-center relative overflow-hidden"
+    >
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <img 
           src="/lovable-uploads/4eaad9f8-987c-462b-9e3f-da00a061a16c.png"
