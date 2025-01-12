@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
+import { RotateCw } from "lucide-react";
 
 export const Hero = () => {
   const [email, setEmail] = useState("");
@@ -47,9 +48,12 @@ export const Hero = () => {
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
       <div className="container mx-auto px-4 text-center">
-        <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-sui-blue via-sui-purple to-sui-teal bg-clip-text text-transparent animate-float">
-          The Next Generation Blockchain
-        </h1>
+        <div className="relative inline-block">
+          <RotateCw className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 text-sui-blue/10 animate-[spin_10s_linear_infinite]" />
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-sui-blue via-sui-purple to-sui-teal bg-clip-text text-transparent animate-float relative z-10">
+            The Next Generation Blockchain
+          </h1>
+        </div>
         <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
           Experience unprecedented speed, security, and scalability with Sui's innovative Layer 1 blockchain platform.
         </p>
