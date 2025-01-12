@@ -5,7 +5,7 @@ const Innovation = () => {
   return (
     <div className="min-h-screen bg-black text-white">
       <Navbar />
-      <div className="container mx-auto px-4 pt-24">
+      <div className="container mx-auto px-4 pt-24 space-y-20">
         <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto">
           {/* First Card */}
           <Card className="bg-black/50 backdrop-blur-sm border-gray-800">
@@ -65,6 +65,36 @@ const Innovation = () => {
               </ul>
             </CardContent>
           </Card>
+        </div>
+
+        {/* New Node Setup Section */}
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="relative">
+              <img
+                src="/lovable-uploads/4bf1e298-27cd-46f3-9129-0520b416784b.png"
+                alt="Node Setup Illustration"
+                className="w-full h-auto"
+              />
+              <div className="absolute inset-0 bg-gradient-radial opacity-50"></div>
+            </div>
+            <div className="space-y-8">
+              <h2 className="text-5xl font-bold bg-gradient-to-r from-sui-blue via-sui-purple to-sui-teal bg-clip-text text-transparent">
+                Easily setup a node
+              </h2>
+              <div className="space-y-4">
+                <div className="flex items-center gap-4 p-4 rounded-xl bg-black/30 backdrop-blur-sm border border-gray-800 hover:border-sui-teal transition-colors">
+                  <span className="text-xl font-semibold text-white">Regular Computer</span>
+                </div>
+                <div className="flex items-center gap-4 p-4 rounded-xl bg-black/30 backdrop-blur-sm border border-gray-800 hover:border-sui-teal transition-colors">
+                  <span className="text-xl font-semibold text-white">Small Token Stake</span>
+                </div>
+              </div>
+              <p className="text-xl text-gray-300">
+                Join our network with minimal requirements. All you need is a regular computer and a small token stake to start participating in the network's consensus and earning rewards.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
