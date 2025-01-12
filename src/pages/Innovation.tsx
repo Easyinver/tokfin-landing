@@ -72,9 +72,9 @@ const Innovation = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="relative h-[400px] overflow-hidden">
               <img
-                src="/lovable-uploads/4bf1e298-27cd-46f3-9129-0520b416784b.png"
+                src="/lovable-uploads/aa957b6e-1ad4-442d-b9db-90d79da713dd.png"
                 alt="Node Setup Illustration"
-                className="w-full h-[150%] object-cover object-top"
+                className="w-full h-full object-contain"
               />
               <div className="absolute inset-0 bg-gradient-radial opacity-50"></div>
             </div>
