@@ -8,8 +8,12 @@ export const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           <div className="flex items-center">
-            <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-sui-blue via-sui-purple to-sui-teal bg-clip-text text-transparent">
-              Sui
+            <Link to="/" className="flex items-center">
+              <img 
+                src="/lovable-uploads/fe70204b-c5b2-4874-aee2-b7006ce7437b.png" 
+                alt="Tokfin Logo" 
+                className="h-12"
+              />
             </Link>
           </div>
           
