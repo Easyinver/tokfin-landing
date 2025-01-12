@@ -67,12 +67,12 @@ const Innovation = () => {
           </Card>
         </div>
 
-        {/* New Node Setup Section */}
+        {/* Node Setup Section */}
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="relative h-[400px] overflow-hidden">
               <img
-                src="/lovable-uploads/aa957b6e-1ad4-442d-b9db-90d79da713dd.png"
+                src="/lovable-uploads/43f807aa-97d2-471d-a5e6-ea2864c73f31.png"
                 alt="Node Setup Illustration"
                 className="w-full h-full object-contain"
               />
