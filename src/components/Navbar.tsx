@@ -27,9 +27,9 @@ export const Navbar = () => {
             <a href="#stats" className="text-white hover:text-sui-teal transition-colors">
               Statistics
             </a>
-            <a href="#developers" className="text-white hover:text-sui-teal transition-colors">
+            <Link to="/developers" className="text-white hover:text-sui-teal transition-colors">
               Developers
-            </a>
+            </Link>
             <Button className="bg-sui-blue hover:bg-sui-purple transition-colors">
               Get Started
             </Button>
