@@ -24,18 +24,26 @@ export const Navbar = () => {
     }
   };
 
+  const handleHomeClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (location.pathname !== '/') {
+      navigate('/', { replace: true });
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-md">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center">
+            <a href="/" onClick={handleHomeClick} className="flex items-center">
               <img 
                 src="/lovable-uploads/fe70204b-c5b2-4874-aee2-b7006ce7437b.png" 
                 alt="Tokfin Logo" 
                 className="h-12"
               />
-            </Link>
+            </a>
           </div>
 
           {/* Desktop Navigation */}
