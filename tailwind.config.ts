@@ -68,12 +68,12 @@ export default {
           to: { height: "0" },
         },
         float: {
-          "0%": { transform: "translate(0, 0) rotate(0deg)" },
-          "20%": { transform: "translate(80vw, 20vh) rotate(90deg)" },
-          "40%": { transform: "translate(20vw, 80vh) rotate(180deg)" },
-          "60%": { transform: "translate(80vw, 60vh) rotate(270deg)" },
-          "80%": { transform: "translate(10vw, 40vh) rotate(360deg)" },
-          "100%": { transform: "translate(0, 0) rotate(0deg)" },
+          "0%": { transform: "translate(-50%, -50%) rotate(0deg)" },
+          "20%": { transform: "translate(200%, 100%) rotate(90deg)" },
+          "40%": { transform: "translate(-100%, 200%) rotate(180deg)" },
+          "60%": { transform: "translate(150%, 150%) rotate(270deg)" },
+          "80%": { transform: "translate(-150%, 50%) rotate(360deg)" },
+          "100%": { transform: "translate(-50%, -50%) rotate(0deg)" },
         },
       },
       animation: {
