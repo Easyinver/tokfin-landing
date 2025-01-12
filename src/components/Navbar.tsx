@@ -48,9 +48,6 @@ export const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/developers" className="text-white hover:text-sui-teal transition-colors">
-              Developers
-            </Link>
             <Link to="/innovation" className="text-white hover:text-sui-teal transition-colors">
               Innovation
             </Link>
@@ -61,6 +58,9 @@ export const Navbar = () => {
             >
               Features
             </a>
+            <Link to="/developers" className="text-white hover:text-sui-teal transition-colors">
+              Developers
+            </Link>
             <a href="#stats" className="text-white hover:text-sui-teal transition-colors">
               Stats
             </a>
