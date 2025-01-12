@@ -70,11 +70,11 @@ const Innovation = () => {
         {/* New Node Setup Section */}
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="relative">
+            <div className="relative h-[400px] overflow-hidden">
               <img
                 src="/lovable-uploads/4bf1e298-27cd-46f3-9129-0520b416784b.png"
                 alt="Node Setup Illustration"
-                className="w-full h-auto"
+                className="w-full h-[150%] object-cover object-top"
               />
               <div className="absolute inset-0 bg-gradient-radial opacity-50"></div>
             </div>
