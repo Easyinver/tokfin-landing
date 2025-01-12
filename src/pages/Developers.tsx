@@ -3,8 +3,13 @@ import { Card } from "@/components/ui/card";
 import { ParticleBackground } from "@/components/ParticleBackground";
 import { Navbar } from "@/components/Navbar";
 import { ArrowRight, Code2, GitBranch, Terminal, MonitorPlay, Server, Shield, Blocks, Cpu } from "lucide-react";
+import { useEffect } from "react";
 
 export default function Developers() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="min-h-screen bg-black text-white">
       <ParticleBackground />
