@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ParticleBackground } from "@/components/ParticleBackground";
 import { Navbar } from "@/components/Navbar";
-import { ArrowRight, Code2, GitBranch, Terminal } from "lucide-react";
+import { ArrowRight, Code2, GitBranch, Terminal, MonitorPlay, Server, Shield, Blocks, Cpu } from "lucide-react";
 
 export default function Developers() {
   return (
@@ -27,31 +27,47 @@ export default function Developers() {
         </div>
       </section>
 
-      {/* Features Grid */}
+      {/* Development Options Grid */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="p-6 bg-black/50 border-gray-800 hover:border-sui-teal transition-colors">
-              <Code2 className="h-12 w-12 mb-4 text-sui-teal" />
-              <h3 className="text-xl font-semibold mb-3">Powerful APIs</h3>
-              <p className="text-gray-400">
-                Access our comprehensive suite of APIs designed for building sophisticated financial applications.
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            <Card className="p-6 bg-black/50 border-gray-800 hover:border-sui-teal transition-colors group cursor-pointer">
+              <MonitorPlay className="h-12 w-12 mb-4 text-sui-teal group-hover:text-white transition-colors" />
+              <h3 className="text-xl font-semibold mb-2">Launch a Dapp</h3>
+              <p className="text-gray-400 text-sm">
+                Build and deploy decentralized applications on our platform
               </p>
             </Card>
 
-            <Card className="p-6 bg-black/50 border-gray-800 hover:border-sui-purple transition-colors">
-              <Terminal className="h-12 w-12 mb-4 text-sui-purple" />
-              <h3 className="text-xl font-semibold mb-3">Developer Tools</h3>
-              <p className="text-gray-400">
-                Utilize our SDK, documentation, and testing environments to accelerate your development process.
+            <Card className="p-6 bg-black/50 border-gray-800 hover:border-sui-purple transition-colors group cursor-pointer">
+              <Server className="h-12 w-12 mb-4 text-sui-purple group-hover:text-white transition-colors" />
+              <h3 className="text-xl font-semibold mb-2">Run a Node</h3>
+              <p className="text-gray-400 text-sm">
+                Participate in the network by running your own node
               </p>
             </Card>
 
-            <Card className="p-6 bg-black/50 border-gray-800 hover:border-sui-blue transition-colors">
-              <GitBranch className="h-12 w-12 mb-4 text-sui-blue" />
-              <h3 className="text-xl font-semibold mb-3">Open Source</h3>
-              <p className="text-gray-400">
-                Contribute to our open-source projects and help shape the future of decentralized finance.
+            <Card className="p-6 bg-black/50 border-gray-800 hover:border-sui-blue transition-colors group cursor-pointer">
+              <Shield className="h-12 w-12 mb-4 text-sui-blue group-hover:text-white transition-colors" />
+              <h3 className="text-xl font-semibold mb-2">Run a Validator</h3>
+              <p className="text-gray-400 text-sm">
+                Help secure the network as a validator
+              </p>
+            </Card>
+
+            <Card className="p-6 bg-black/50 border-gray-800 hover:border-sui-teal transition-colors group cursor-pointer">
+              <Blocks className="h-12 w-12 mb-4 text-sui-teal group-hover:text-white transition-colors" />
+              <h3 className="text-xl font-semibold mb-2">Build a Pallet</h3>
+              <p className="text-gray-400 text-sm">
+                Create custom blockchain functionality
+              </p>
+            </Card>
+
+            <Card className="p-6 bg-black/50 border-gray-800 hover:border-sui-purple transition-colors group cursor-pointer">
+              <Cpu className="h-12 w-12 mb-4 text-sui-purple group-hover:text-white transition-colors" />
+              <h3 className="text-xl font-semibold mb-2">Build/Maintain Runtime</h3>
+              <p className="text-gray-400 text-sm">
+                Contribute to core runtime development
               </p>
             </Card>
           </div>
