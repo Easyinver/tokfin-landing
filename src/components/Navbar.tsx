@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   return (
@@ -7,12 +8,15 @@ export const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           <div className="flex items-center">
-            <span className="text-2xl font-bold bg-gradient-to-r from-sui-blue via-sui-purple to-sui-teal bg-clip-text text-transparent">
+            <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-sui-blue via-sui-purple to-sui-teal bg-clip-text text-transparent">
               Sui
-            </span>
+            </Link>
           </div>
           
           <div className="hidden md:flex items-center space-x-8">
+            <Link to="/innovation" className="text-white hover:text-sui-teal transition-colors">
+              Innovation
+            </Link>
             <a href="#features" className="text-white hover:text-sui-teal transition-colors">
               Features
             </a>

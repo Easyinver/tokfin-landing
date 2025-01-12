@@ -66,7 +66,7 @@ export type Database = {
         Insert: {
           avatar_url?: string | null
           created_at?: string
-          id?: number
+          id: number
           joined_at?: string | null
           simulation_batch?: string | null
           subscription_pack?: string | null
