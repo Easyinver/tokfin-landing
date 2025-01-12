@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,41 +7,7 @@ import { useToast } from "@/components/ui/use-toast";
 export const Hero = () => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [position, setPosition] = useState({ x: 50, y: 50 });
-  const animationFrameRef = useRef<number>();
-  const velocityRef = useRef({ x: 2, y: 2 });
   const { toast } = useToast();
-
-  useEffect(() => {
-    const animate = () => {
-      setPosition(prev => {
-        const newX = prev.x + velocityRef.current.x;
-        const newY = prev.y + velocityRef.current.y;
-
-        // Bounce off edges
-        if (newX >= 100 || newX <= 0) {
-          velocityRef.current.x *= -1;
-        }
-        if (newY >= 100 || newY <= 0) {
-          velocityRef.current.y *= -1;
-        }
-
-        return {
-          x: Math.max(0, Math.min(100, newX)),
-          y: Math.max(0, Math.min(100, newY))
-        };
-      });
-      animationFrameRef.current = requestAnimationFrame(animate);
-    };
-
-    animationFrameRef.current = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,18 +45,12 @@ export const Hero = () => {
   };
 
   return (
-    <div 
-      id="hero-section" 
-      className="min-h-screen flex items-center justify-center relative overflow-hidden"
-    >
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      <div className="absolute inset-0 flex items-center justify-center">
         <img 
           src="/lovable-uploads/4eaad9f8-987c-462b-9e3f-da00a061a16c.png"
           alt="QR Code Background"
-          className="w-32 h-32 opacity-20 transition-transform duration-300 ease-out"
-          style={{
-            transform: `translate(${position.x - 50}%, ${position.y - 50}%) rotate(${position.x / 5}deg)`
-          }}
+          className="w-32 h-32 opacity-20 animate-float pointer-events-none"
         />
       </div>
       <div className="container mx-auto px-4 text-center relative z-10">
