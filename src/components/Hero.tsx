@@ -53,7 +53,7 @@ export const Hero = () => {
       />
       <div className="container mx-auto px-4 text-center">
         <div className="relative inline-block">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-sui-blue via-sui-purple to-sui-teal bg-clip-text text-transparent animate-float relative">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-sui-blue via-sui-purple to-sui-teal bg-clip-text text-transparent">
             The Next Generation Blockchain
           </h1>
         </div>
