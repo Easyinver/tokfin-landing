@@ -9,6 +9,264 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      bchain: {
+        Row: {
+          cteamid: number | null
+          gas: number | null
+          id: number
+          shares: number | null
+          stable: number | null
+          trscfin: number | null
+          trscini: number | null
+          trscliq: number | null
+          trust: number | null
+        }
+        Insert: {
+          cteamid?: number | null
+          gas?: number | null
+          id?: number
+          shares?: number | null
+          stable?: number | null
+          trscfin?: number | null
+          trscini?: number | null
+          trscliq?: number | null
+          trust?: number | null
+        }
+        Update: {
+          cteamid?: number | null
+          gas?: number | null
+          id?: number
+          shares?: number | null
+          stable?: number | null
+          trscfin?: number | null
+          trscini?: number | null
+          trscliq?: number | null
+          trust?: number | null
+        }
+        Relationships: []
+      }
+      citizens: {
+        Row: {
+          actor: number | null
+          consdate: string | null
+          consen: number | null
+          crypto: number | null
+          cteam: number | null
+          fiat: number | null
+          id: number
+          moneda: string | null
+          rol: number | null
+          shares: number | null
+          stable: number | null
+          stardate: string | null
+          trust: number | null
+        }
+        Insert: {
+          actor?: number | null
+          consdate?: string | null
+          consen?: number | null
+          crypto?: number | null
+          cteam?: number | null
+          fiat?: number | null
+          id?: number
+          moneda?: string | null
+          rol?: number | null
+          shares?: number | null
+          stable?: number | null
+          stardate?: string | null
+          trust?: number | null
+        }
+        Update: {
+          actor?: number | null
+          consdate?: string | null
+          consen?: number | null
+          crypto?: number | null
+          cteam?: number | null
+          fiat?: number | null
+          id?: number
+          moneda?: string | null
+          rol?: number | null
+          shares?: number | null
+          stable?: number | null
+          stardate?: string | null
+          trust?: number | null
+        }
+        Relationships: []
+      }
+      cteam: {
+        Row: {
+          blockid: number | null
+          colla1: number | null
+          colla2: number | null
+          colla3: number | null
+          enddate: string | null
+          gas: number | null
+          id: number
+          mstr1: number | null
+          nomin1: number | null
+          nomin2: number | null
+          nomin3: number | null
+          sigm1: number | null
+          sigm2: number | null
+          sigm3: number | null
+          sigs1: number | null
+          sigs2: number | null
+          sigs3: number | null
+          sigs4: number | null
+          stardate: string | null
+          valg1: number | null
+          valg2: number | null
+          valp1: number | null
+          valp2: number | null
+          valp3: number | null
+          valp4: number | null
+          valp5: number | null
+          valp6: number | null
+          vals1: number | null
+          vals2: number | null
+          vals3: number | null
+          vals4: number | null
+          vals5: number | null
+          vals6: number | null
+          vals7: number | null
+          vals8: number | null
+          vals9: number | null
+        }
+        Insert: {
+          blockid?: number | null
+          colla1?: number | null
+          colla2?: number | null
+          colla3?: number | null
+          enddate?: string | null
+          gas?: number | null
+          id?: number
+          mstr1?: number | null
+          nomin1?: number | null
+          nomin2?: number | null
+          nomin3?: number | null
+          sigm1?: number | null
+          sigm2?: number | null
+          sigm3?: number | null
+          sigs1?: number | null
+          sigs2?: number | null
+          sigs3?: number | null
+          sigs4?: number | null
+          stardate?: string | null
+          valg1?: number | null
+          valg2?: number | null
+          valp1?: number | null
+          valp2?: number | null
+          valp3?: number | null
+          valp4?: number | null
+          valp5?: number | null
+          valp6?: number | null
+          vals1?: number | null
+          vals2?: number | null
+          vals3?: number | null
+          vals4?: number | null
+          vals5?: number | null
+          vals6?: number | null
+          vals7?: number | null
+          vals8?: number | null
+          vals9?: number | null
+        }
+        Update: {
+          blockid?: number | null
+          colla1?: number | null
+          colla2?: number | null
+          colla3?: number | null
+          enddate?: string | null
+          gas?: number | null
+          id?: number
+          mstr1?: number | null
+          nomin1?: number | null
+          nomin2?: number | null
+          nomin3?: number | null
+          sigm1?: number | null
+          sigm2?: number | null
+          sigm3?: number | null
+          sigs1?: number | null
+          sigs2?: number | null
+          sigs3?: number | null
+          sigs4?: number | null
+          stardate?: string | null
+          valg1?: number | null
+          valg2?: number | null
+          valp1?: number | null
+          valp2?: number | null
+          valp3?: number | null
+          valp4?: number | null
+          valp5?: number | null
+          valp6?: number | null
+          vals1?: number | null
+          vals2?: number | null
+          vals3?: number | null
+          vals4?: number | null
+          vals5?: number | null
+          vals6?: number | null
+          vals7?: number | null
+          vals8?: number | null
+          vals9?: number | null
+        }
+        Relationships: []
+      }
+      smc: {
+        Row: {
+          destino: number | null
+          feature: string | null
+          fiat: number | null
+          fid: string | null
+          gas: number | null
+          id: number
+          modid: string | null
+          modulo: string | null
+          origen: number | null
+          seglevel: number | null
+          shares: number | null
+          smcid: string | null
+          smi: string | null
+          stable: number | null
+          submodulo: string | null
+          trust: number | null
+        }
+        Insert: {
+          destino?: number | null
+          feature?: string | null
+          fiat?: number | null
+          fid?: string | null
+          gas?: number | null
+          id?: number
+          modid?: string | null
+          modulo?: string | null
+          origen?: number | null
+          seglevel?: number | null
+          shares?: number | null
+          smcid?: string | null
+          smi?: string | null
+          stable?: number | null
+          submodulo?: string | null
+          trust?: number | null
+        }
+        Update: {
+          destino?: number | null
+          feature?: string | null
+          fiat?: number | null
+          fid?: string | null
+          gas?: number | null
+          id?: number
+          modid?: string | null
+          modulo?: string | null
+          origen?: number | null
+          seglevel?: number | null
+          shares?: number | null
+          smcid?: string | null
+          smi?: string | null
+          stable?: number | null
+          submodulo?: string | null
+          trust?: number | null
+        }
+        Relationships: []
+      }
       subscriptions: {
         Row: {
           amount: number
@@ -52,6 +310,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      trsc: {
+        Row: {
+          blockid: number | null
+          cteamid: number | null
+          ctzid: number | null
+          destino: number | null
+          gas: number | null
+          id: number
+          origen: number | null
+          seglevel: number | null
+          shares: number | null
+          smccode: string | null
+          smcid: number | null
+          stable: number | null
+          trust: number | null
+        }
+        Insert: {
+          blockid?: number | null
+          cteamid?: number | null
+          ctzid?: number | null
+          destino?: number | null
+          gas?: number | null
+          id?: number
+          origen?: number | null
+          seglevel?: number | null
+          shares?: number | null
+          smccode?: string | null
+          smcid?: number | null
+          stable?: number | null
+          trust?: number | null
+        }
+        Update: {
+          blockid?: number | null
+          cteamid?: number | null
+          ctzid?: number | null
+          destino?: number | null
+          gas?: number | null
+          id?: number
+          origen?: number | null
+          seglevel?: number | null
+          shares?: number | null
+          smccode?: string | null
+          smcid?: number | null
+          stable?: number | null
+          trust?: number | null
+        }
+        Relationships: []
       }
       users: {
         Row: {

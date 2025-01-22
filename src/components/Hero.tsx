@@ -60,7 +60,7 @@ export const Hero = () => {
           </h1>
         </div>
         <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-          Experience unprecedented speed, security, and scalability with Sui's innovative Layer 1 blockchain platform.
+          Speed, Security & Scalability<br />Innovative Layer-0 blockchain platform
         </p>
         <form onSubmit={handleSubmit} className="max-w-md mx-auto mb-8">
           <div className="flex flex-col md:flex-row gap-4">
