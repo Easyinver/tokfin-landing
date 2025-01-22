@@ -80,7 +80,7 @@ export const Features = () => {
       <section id="features" className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-sui-blue to-sui-purple bg-clip-text text-transparent">
-            Why Choose Sui?
+            Why Choose Tokfin?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {whyChooseFeatures.map((feature) => (
