@@ -102,6 +102,19 @@ export const Features = () => {
       <section className="py-20 bg-black/10">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-sui-blue to-sui-purple bg-clip-text text-transparent">
+            Ecosystem Vision
+          </h2>
+          <div className="max-w-3xl mx-auto text-center">
+            <p className="text-lg text-gray-300 leading-relaxed">
+              We envision a decentralized, secure, and scalable network, governed and operated by its own community. A network that dynamically responds to growing demand, scaling its resources horizontally and vertically. Tokfin will constantly evolve with the needs of the ecosystem, incorporating new use cases and technologies without disruption for users.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-black/10">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-sui-blue to-sui-purple bg-clip-text text-transparent">
             Key Innovations
           </h2>
           <div className="space-y-8">
