@@ -36,8 +36,8 @@ const keyInsights = [
   },
   {
     number: "03",
-    title: "Massa Distribution",
-    description: "Third, we designed the Massa coin distribution to give full control to the community and keep the database safe.",
+    title: "Tokfin Distribution",
+    description: "Third, we designed the Tokfin token distribution to ensure fair governance and sustainable ecosystem growth, with built-in mechanisms for community rewards and platform stability.",
   },
 ];
 
