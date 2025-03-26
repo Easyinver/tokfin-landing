@@ -93,6 +93,30 @@ export type Database = {
         }
         Relationships: []
       }
+      contacts: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+          message: string
+          name: string
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: string
+          message: string
+          name: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+        }
+        Relationships: []
+      }
       cteam: {
         Row: {
           blockid: number | null
@@ -394,18 +418,30 @@ export type Database = {
           created_at: string | null
           email: string
           id: string
+          interests: string | null
+          message: string | null
+          name: string | null
+          origin: string
           status: string | null
         }
         Insert: {
           created_at?: string | null
           email: string
           id?: string
+          interests?: string | null
+          message?: string | null
+          name?: string | null
+          origin?: string
           status?: string | null
         }
         Update: {
           created_at?: string | null
           email?: string
           id?: string
+          interests?: string | null
+          message?: string | null
+          name?: string | null
+          origin?: string
           status?: string | null
         }
         Relationships: []
