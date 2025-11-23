@@ -19,7 +19,7 @@ interface Node {
 const nodes: Node[] = [
   { name: "Genesis", role: "Validator", ip: "64.227.101.109", location: "San Francisco", lat: 37.7749, lon: -122.4194, status: "online" },
   { name: "Treasury", role: "Full Node", ip: "152.42.217.133", location: "Singapore", lat: 1.3521, lon: 103.8198, status: "online" },
-  { name: "Foundation", role: "Full Node", ip: "144.126.197.239", location: "Sydney", lat: -33.8688, lon: 151.2093, status: "online" }
+  { name: "Foundation", role: "Full Node", ip: "144.126.197.239", location: "London", lat: 51.5074, lon: -0.1278, status: "online" }
 ];
 
 const getStatusColor = (status: string) => {
