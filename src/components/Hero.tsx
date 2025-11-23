@@ -14,10 +14,15 @@ export const Hero = () => {
     setIsLoading(true);
 
     try {
-      // Add to waitlist table
+      // Add to contact messages table
       const { error: dbError } = await supabase
-        .from("waitlist_subscriptions")
-        .insert([{ email }]);
+        .from("agk_contact_messages")
+        .insert([{ 
+          email,
+          name: "Waitlist User",
+          message: "Joined waitlist",
+          message_type: "waitlist"
+        }]);
 
       if (dbError) throw dbError;
 
