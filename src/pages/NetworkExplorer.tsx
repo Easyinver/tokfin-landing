@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import { Navbar } from "@/components/Navbar";
+import { NetworkMap } from "@/components/NetworkMap";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Loader2 } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface BlockInfo {
   number: number;
@@ -84,7 +86,14 @@ const NetworkExplorer = () => {
       <div className="container mx-auto px-4 pt-32 pb-16">
         <h1 className="text-4xl md:text-5xl font-bold mb-8">Network Explorer</h1>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <Tabs defaultValue="blocks" className="w-full">
+          <TabsList className="mb-6">
+            <TabsTrigger value="blocks">Recent Blocks</TabsTrigger>
+            <TabsTrigger value="map">Network Map</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="blocks" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Card>
             <CardHeader>
               <CardTitle className="text-sm">Connection Status</CardTitle>
@@ -167,7 +176,7 @@ const NetworkExplorer = () => {
           </CardContent>
         </Card>
 
-        {selectedBlock && (
+            {selectedBlock && (
           <Card className="mt-6">
             <CardHeader>
               <CardTitle>Block Details</CardTitle>
@@ -188,7 +197,13 @@ const NetworkExplorer = () => {
               </div>
             </CardContent>
           </Card>
-        )}
+            )}
+          </TabsContent>
+
+          <TabsContent value="map">
+            <NetworkMap />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
