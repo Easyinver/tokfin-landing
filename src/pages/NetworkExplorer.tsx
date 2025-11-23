@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import { Navbar } from "@/components/Navbar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,6 +15,7 @@ interface BlockInfo {
 }
 
 const NetworkExplorer = () => {
+  const navigate = useNavigate();
   const [api, setApi] = useState<ApiPromise | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [currentBlock, setCurrentBlock] = useState<number>(0);
@@ -147,7 +149,7 @@ const NetworkExplorer = () => {
                     <TableRow 
                       key={block.hash}
                       className="cursor-pointer hover:bg-muted/50"
-                      onClick={() => setSelectedBlock(block)}
+                      onClick={() => navigate(`/explorer/block/${block.number}`)}
                     >
                       <TableCell className="font-medium">#{block.number}</TableCell>
                       <TableCell className="font-mono text-xs truncate max-w-xs">
