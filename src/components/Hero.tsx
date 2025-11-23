@@ -14,15 +14,10 @@ export const Hero = () => {
     setIsLoading(true);
 
     try {
-      // Add to contact messages table
+      // Add to waitlist table in tkcom schema
       const { error: dbError } = await supabase
-        .from("agk_contact_messages")
-        .insert([{ 
-          email,
-          name: "Waitlist User",
-          message: "Joined waitlist",
-          message_type: "waitlist"
-        }]);
+        .from("waitlist_subscriptions" as any)
+        .insert([{ email }]);
 
       if (dbError) throw dbError;
 
