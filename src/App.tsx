@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Innovation from "./pages/Innovation";
 import Developers from "./pages/Developers";
 import NetworkExplorer from "./pages/NetworkExplorer";
+import BlockDetail from "./pages/BlockDetail";
 import { Footer } from "./components/Footer";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/innovation" element={<Innovation />} />
           <Route path="/developers" element={<Developers />} />
           <Route path="/explorer" element={<NetworkExplorer />} />
+          <Route path="/explorer/block/:blockNumber" element={<BlockDetail />} />
         </Routes>
         <Footer />
       </BrowserRouter>
