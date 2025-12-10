@@ -29,7 +29,7 @@ const NetworkExplorer = () => {
   useEffect(() => {
     const connectToNode = async () => {
       try {
-        const wsProvider = new WsProvider("ws://152.42.217.133:9944");
+        const wsProvider = new WsProvider("ws://localhost:9944");
         const apiInstance = await ApiPromise.create({ provider: wsProvider });
         
         setApi(apiInstance);
