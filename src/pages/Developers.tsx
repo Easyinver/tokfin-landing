@@ -4,11 +4,21 @@ import { ParticleBackground } from "@/components/ParticleBackground";
 import { Navbar } from "@/components/Navbar";
 import { ArrowRight, Code2, GitBranch, Terminal, MonitorPlay, Server, Shield, Blocks, Cpu } from "lucide-react";
 import { useEffect } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function Developers() {
+  const { toast } = useToast();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const handleComingSoon = () => {
+    toast({
+      title: "Coming Soon!",
+      description: "We're working hard on this feature. Stay tuned!",
+    });
+  };
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -25,7 +35,7 @@ export default function Developers() {
             <p className="text-lg md:text-xl text-gray-300 mb-8">
               Join our community of developers and create innovative financial applications on our secure and scalable platform.
             </p>
-            <Button className="bg-sui-blue hover:bg-sui-purple text-white">
+            <Button className="bg-sui-blue hover:bg-sui-purple text-white" onClick={handleComingSoon}>
               Start Building <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
@@ -36,7 +46,7 @@ export default function Developers() {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-            <Card className="p-6 bg-black/50 border-gray-800 hover:border-sui-teal transition-colors group cursor-pointer">
+            <Card className="p-6 bg-black/50 border-gray-800 hover:border-sui-teal transition-colors group cursor-pointer" onClick={handleComingSoon}>
               <MonitorPlay className="h-12 w-12 mb-4 text-sui-teal group-hover:text-white transition-colors" />
               <h3 className="text-xl font-semibold mb-2">Launch a Dapp</h3>
               <p className="text-gray-400 text-sm">
@@ -44,7 +54,7 @@ export default function Developers() {
               </p>
             </Card>
 
-            <Card className="p-6 bg-black/50 border-gray-800 hover:border-sui-purple transition-colors group cursor-pointer">
+            <Card className="p-6 bg-black/50 border-gray-800 hover:border-sui-purple transition-colors group cursor-pointer" onClick={handleComingSoon}>
               <Server className="h-12 w-12 mb-4 text-sui-purple group-hover:text-white transition-colors" />
               <h3 className="text-xl font-semibold mb-2">Run a Node</h3>
               <p className="text-gray-400 text-sm">
@@ -52,7 +62,7 @@ export default function Developers() {
               </p>
             </Card>
 
-            <Card className="p-6 bg-black/50 border-gray-800 hover:border-sui-blue transition-colors group cursor-pointer">
+            <Card className="p-6 bg-black/50 border-gray-800 hover:border-sui-blue transition-colors group cursor-pointer" onClick={handleComingSoon}>
               <Shield className="h-12 w-12 mb-4 text-sui-blue group-hover:text-white transition-colors" />
               <h3 className="text-xl font-semibold mb-2">Run a Validator</h3>
               <p className="text-gray-400 text-sm">
@@ -60,7 +70,7 @@ export default function Developers() {
               </p>
             </Card>
 
-            <Card className="p-6 bg-black/50 border-gray-800 hover:border-sui-teal transition-colors group cursor-pointer">
+            <Card className="p-6 bg-black/50 border-gray-800 hover:border-sui-teal transition-colors group cursor-pointer" onClick={handleComingSoon}>
               <Blocks className="h-12 w-12 mb-4 text-sui-teal group-hover:text-white transition-colors" />
               <h3 className="text-xl font-semibold mb-2">Build a Pallet</h3>
               <p className="text-gray-400 text-sm">
@@ -68,7 +78,7 @@ export default function Developers() {
               </p>
             </Card>
 
-            <Card className="p-6 bg-black/50 border-gray-800 hover:border-sui-purple transition-colors group cursor-pointer">
+            <Card className="p-6 bg-black/50 border-gray-800 hover:border-sui-purple transition-colors group cursor-pointer" onClick={handleComingSoon}>
               <Cpu className="h-12 w-12 mb-4 text-sui-purple group-hover:text-white transition-colors" />
               <h3 className="text-xl font-semibold mb-2">Build/Maintain Runtime</h3>
               <p className="text-gray-400 text-sm">
@@ -95,7 +105,7 @@ export default function Developers() {
                 <p className="text-gray-400 mb-4">
                   Get up and running with our platform in minutes with our step-by-step guide.
                 </p>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full" onClick={handleComingSoon}>
                   View Guide
                 </Button>
               </Card>
@@ -104,7 +114,7 @@ export default function Developers() {
                 <p className="text-gray-400 mb-4">
                   Detailed documentation of our API endpoints, request/response formats, and examples.
                 </p>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full" onClick={handleComingSoon}>
                   Explore APIs
                 </Button>
               </Card>
@@ -125,13 +135,13 @@ export default function Developers() {
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-6">
-            <Button className="bg-sui-purple hover:bg-sui-blue">
+            <Button className="bg-sui-purple hover:bg-sui-blue" onClick={handleComingSoon}>
               Join Discord
             </Button>
-            <Button className="bg-sui-teal hover:bg-sui-purple">
+            <Button className="bg-sui-teal hover:bg-sui-purple" onClick={handleComingSoon}>
               GitHub Repository
             </Button>
-            <Button className="bg-sui-blue hover:bg-sui-teal">
+            <Button className="bg-sui-blue hover:bg-sui-teal" onClick={handleComingSoon}>
               Developer Forum
             </Button>
           </div>
