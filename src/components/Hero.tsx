@@ -82,10 +82,23 @@ export const Hero = () => {
           </div>
         </form>
         <div className="flex flex-col md:flex-row gap-4 justify-center">
-          <Button className="bg-sui-blue hover:bg-sui-purple transition-colors text-lg px-8 py-6">
+          <Button 
+            className="bg-sui-blue hover:bg-sui-purple transition-colors text-lg px-8 py-6"
+            onClick={() => toast({
+              title: "Coming Soon!",
+              description: "We're working hard on this feature. Stay tuned!",
+            })}
+          >
             Start Building
           </Button>
-          <Button variant="outline" className="border-sui-teal text-sui-teal hover:bg-sui-teal/10 transition-colors text-lg px-8 py-6">
+          <Button 
+            variant="outline" 
+            className="border-sui-teal text-sui-teal hover:bg-sui-teal/10 transition-colors text-lg px-8 py-6"
+            onClick={() => toast({
+              title: "Coming Soon!",
+              description: "We're working hard on this feature. Stay tuned!",
+            })}
+          >
             Learn More
           </Button>
         </div>
