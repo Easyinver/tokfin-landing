@@ -64,9 +64,9 @@ export const Navbar = () => {
             <Link to="/explorer" className="text-white hover:text-sui-teal transition-colors">
               Explorer
             </Link>
-            <a href="#stats" className="text-white hover:text-sui-teal transition-colors">
-              Stats
-            </a>
+            <Link to="/investors" className="text-white hover:text-sui-teal transition-colors">
+              Investors
+            </Link>
             <Button variant="outline" className="bg-transparent text-white border-white hover:bg-white hover:text-black transition-colors">
               Launch App
             </Button>
