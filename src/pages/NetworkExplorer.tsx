@@ -27,16 +27,33 @@ const NetworkExplorer = () => {
   const [selectedBlock, setSelectedBlock] = useState<BlockInfo | null>(null);
 
   useEffect(() => {
+    let unsubscribe: (() => void) | undefined;
+    let wsProvider: WsProvider | undefined;
+
     const connectToNode = async () => {
       try {
-        const wsProvider = new WsProvider("ws://localhost:9944");
+        wsProvider = new WsProvider("ws://localhost:9944");
+        
+        // Listen for connection events
+        wsProvider.on('connected', () => {
+          setIsConnected(true);
+        });
+        
+        wsProvider.on('disconnected', () => {
+          setIsConnected(false);
+        });
+        
+        wsProvider.on('error', () => {
+          setIsConnected(false);
+        });
+
         const apiInstance = await ApiPromise.create({ provider: wsProvider });
         
         setApi(apiInstance);
-        setIsConnected(true);
+        setIsConnected(apiInstance.isConnected);
 
         // Subscribe to new blocks
-        const unsubscribe = await apiInstance.rpc.chain.subscribeNewHeads(async (header) => {
+        unsubscribe = await apiInstance.rpc.chain.subscribeNewHeads(async (header) => {
           const blockNumber = header.number.toNumber();
           const blockHash = header.hash.toHex();
           
@@ -60,10 +77,6 @@ const NetworkExplorer = () => {
         // Get peer count
         const health = await apiInstance.rpc.system.health();
         setPeerCount(health.peers.toNumber());
-
-        return () => {
-          unsubscribe();
-        };
       } catch (error) {
         console.error("Error connecting to node:", error);
         setIsConnected(false);
@@ -73,9 +86,8 @@ const NetworkExplorer = () => {
     connectToNode();
 
     return () => {
-      if (api) {
-        api.disconnect();
-      }
+      unsubscribe?.();
+      wsProvider?.disconnect();
     };
   }, []);
 
