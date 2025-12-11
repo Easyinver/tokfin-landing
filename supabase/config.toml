@@ -1,1 +1,7 @@
 project_id = "durwmxstshmxfmspmhow"
+
+[functions.submit-investment-request]
+verify_jwt = false
+
+[functions.send-welcome-email]
+verify_jwt = false
