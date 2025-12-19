@@ -32,7 +32,7 @@ const NetworkExplorer = () => {
 
     const connectToNode = async () => {
       try {
-        wsProvider = new WsProvider("ws://localhost:9944");
+        wsProvider = new WsProvider("ws://137.184.95.138:9944");
         
         // Listen for connection events
         wsProvider.on('connected', () => {
