@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ApiPromise, WsProvider } from "@polkadot/api";
+import { supabase } from "@/integrations/supabase/client";
 import { Navbar } from "@/components/Navbar";
 import { NetworkMap } from "@/components/NetworkMap";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,6 +17,20 @@ interface BlockInfo {
   extrinsics: number;
 }
 
+interface NodeConfig {
+  wsEndpoint: string;
+  nodes: Array<{
+    name: string;
+    role: string;
+    ip: string;
+    location: string;
+    lat: number;
+    lon: number;
+    status: "online" | "offline" | "syncing";
+  }>;
+  updatedAt: string;
+}
+
 const NetworkExplorer = () => {
   const navigate = useNavigate();
   const [api, setApi] = useState<ApiPromise | null>(null);
@@ -25,16 +40,31 @@ const NetworkExplorer = () => {
   const [peerCount, setPeerCount] = useState<number>(0);
   const [blocks, setBlocks] = useState<BlockInfo[]>([]);
   const [selectedBlock, setSelectedBlock] = useState<BlockInfo | null>(null);
+  const [nodeConfig, setNodeConfig] = useState<NodeConfig | null>(null);
+  const [configError, setConfigError] = useState<string | null>(null);
 
   useEffect(() => {
     let unsubscribe: (() => void) | undefined;
     let wsProvider: WsProvider | undefined;
 
-    const connectToNode = async () => {
+    const fetchConfigAndConnect = async () => {
       try {
-        wsProvider = new WsProvider("ws://137.184.95.138:9944");
+        // Fetch node configuration from edge function
+        const { data, error } = await supabase.functions.invoke('get-node-config');
         
-        // Listen for connection events
+        if (error) {
+          console.error("Error fetching node config:", error);
+          setConfigError("Error loading node configuration");
+          return;
+        }
+
+        const config = data as NodeConfig;
+        setNodeConfig(config);
+        console.log("Node config loaded:", config.wsEndpoint);
+
+        // Connect to the WebSocket endpoint from config
+        wsProvider = new WsProvider(config.wsEndpoint);
+        
         wsProvider.on('connected', () => {
           setIsConnected(true);
         });
@@ -52,7 +82,6 @@ const NetworkExplorer = () => {
         setApi(apiInstance);
         setIsConnected(apiInstance.isConnected);
 
-        // Subscribe to new blocks
         unsubscribe = await apiInstance.rpc.chain.subscribeNewHeads(async (header) => {
           const blockNumber = header.number.toNumber();
           const blockHash = header.hash.toHex();
@@ -60,7 +89,6 @@ const NetworkExplorer = () => {
           setCurrentBlock(blockNumber);
           setLastBlockHash(blockHash);
 
-          // Get block details
           const signedBlock = await apiInstance.rpc.chain.getBlock(blockHash);
           const extrinsicsCount = signedBlock.block.extrinsics.length;
           
@@ -74,7 +102,6 @@ const NetworkExplorer = () => {
           setBlocks((prev) => [newBlock, ...prev].slice(0, 10));
         });
 
-        // Get peer count
         const health = await apiInstance.rpc.system.health();
         setPeerCount(health.peers.toNumber());
       } catch (error) {
@@ -83,7 +110,7 @@ const NetworkExplorer = () => {
       }
     };
 
-    connectToNode();
+    fetchConfigAndConnect();
 
     return () => {
       unsubscribe?.();

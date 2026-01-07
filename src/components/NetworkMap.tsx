@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ComposableMap, Geographies, Geography, Marker, Line } from "react-simple-maps";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { supabase } from "@/integrations/supabase/client";
+import { Loader2 } from "lucide-react";
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
@@ -15,12 +17,6 @@ interface Node {
   lon: number;
   status: "online" | "offline" | "syncing";
 }
-
-const nodes: Node[] = [
-  { name: "Genesis", role: "Validator", ip: "64.227.101.109", location: "San Francisco", lat: 37.7749, lon: -122.4194, status: "online" },
-  { name: "Treasury", role: "Full Node", ip: "152.42.217.133", location: "Singapore", lat: 1.3521, lon: 103.8198, status: "online" },
-  { name: "Foundation", role: "Full Node", ip: "144.126.197.239", location: "London", lat: 51.5074, lon: -0.1278, status: "online" }
-];
 
 const getStatusColor = (status: string) => {
   switch (status) {
@@ -50,6 +46,39 @@ const getStatusBadgeVariant = (status: string): "default" | "destructive" | "sec
 
 export const NetworkMap = () => {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+  const [nodes, setNodes] = useState<Node[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchNodes = async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke('get-node-config');
+        
+        if (error) {
+          console.error("Error fetching node config:", error);
+          return;
+        }
+
+        if (data?.nodes) {
+          setNodes(data.nodes);
+        }
+      } catch (error) {
+        console.error("Error fetching nodes:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchNodes();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-16">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
