@@ -904,6 +904,51 @@ export type Database = {
           },
         ]
       }
+      tokfin_network_config: {
+        Row: {
+          created_at: string
+          id: string
+          ip: string
+          is_primary: boolean | null
+          lat: number
+          location: string
+          lon: number
+          name: string
+          role: string
+          status: string
+          updated_at: string
+          ws_port: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          ip: string
+          is_primary?: boolean | null
+          lat: number
+          location: string
+          lon: number
+          name: string
+          role?: string
+          status?: string
+          updated_at?: string
+          ws_port?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          ip?: string
+          is_primary?: boolean | null
+          lat?: number
+          location?: string
+          lon?: number
+          name?: string
+          role?: string
+          status?: string
+          updated_at?: string
+          ws_port?: number | null
+        }
+        Relationships: []
+      }
       transactions: {
         Row: {
           citizen_id: string | null
