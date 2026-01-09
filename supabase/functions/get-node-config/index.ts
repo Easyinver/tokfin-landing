@@ -6,6 +6,28 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Health check: try to connect to node's WebSocket port
+async function checkNodeHealth(ip: string, port: number, timeoutMs = 3000): Promise<boolean> {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+    
+    // Try TCP connection to the WebSocket port
+    const conn = await Deno.connect({
+      hostname: ip,
+      port: port,
+      transport: "tcp",
+    });
+    
+    clearTimeout(timeoutId);
+    conn.close();
+    return true;
+  } catch (error) {
+    console.log(`Node ${ip}:${port} health check failed:`, error.message);
+    return false;
+  }
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -27,22 +49,30 @@ serve(async (req) => {
       throw error;
     }
 
-    // Find primary node for WebSocket endpoint
-    const primaryNode = nodes?.find(n => n.is_primary) || nodes?.[0];
-    const wsEndpoint = primaryNode 
-      ? `ws://${primaryNode.ip}:${primaryNode.ws_port || 9944}` 
-      : null;
-
     // Generate pseudonyms for public display (security: hide real names/IPs)
     const generatePseudocode = (id: string) => {
       const hash = id.slice(0, 8).toUpperCase();
       return `NODE-${hash}`;
     };
 
-    // Map database status to display status
-    const mapStatus = (dbStatus: string): "connected" | "disconnected" => {
-      return dbStatus === "online" ? "connected" : "disconnected";
-    };
+    // Check health of all nodes in parallel
+    const healthChecks = await Promise.all(
+      (nodes || []).map(async (n) => {
+        const isConnected = await checkNodeHealth(n.ip, n.ws_port || 9944);
+        return { id: n.id, isConnected };
+      })
+    );
+
+    const healthMap = new Map(healthChecks.map(h => [h.id, h.isConnected]));
+
+    // Find primary node that is actually connected
+    const primaryNode = nodes?.find(n => n.is_primary && healthMap.get(n.id)) 
+      || nodes?.find(n => healthMap.get(n.id))
+      || nodes?.[0];
+    
+    const wsEndpoint = primaryNode 
+      ? `ws://${primaryNode.ip}:${primaryNode.ws_port || 9944}` 
+      : null;
 
     const nodeConfig = {
       wsEndpoint,
@@ -53,12 +83,12 @@ serve(async (req) => {
         region: n.location.split(',')[0] || 'Unknown',
         lat: n.lat,
         lon: n.lon,
-        status: mapStatus(n.status)
+        status: healthMap.get(n.id) ? "connected" : "disconnected"
       })) || [],
       updatedAt: new Date().toISOString()
     };
 
-    console.log("Returning node configuration from database:", nodeConfig);
+    console.log("Returning node configuration with health checks:", nodeConfig);
 
     return new Response(JSON.stringify(nodeConfig), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
