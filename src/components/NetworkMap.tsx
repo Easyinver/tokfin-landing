@@ -15,17 +15,15 @@ interface Node {
   region: string;
   lat: number;
   lon: number;
-  status: "online" | "offline" | "syncing";
+  status: "connected" | "disconnected";
 }
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case "online":
+    case "connected":
       return "hsl(var(--chart-2))";
-    case "offline":
+    case "disconnected":
       return "hsl(var(--destructive))";
-    case "syncing":
-      return "hsl(var(--chart-3))";
     default:
       return "hsl(var(--muted))";
   }
@@ -33,12 +31,10 @@ const getStatusColor = (status: string) => {
 
 const getStatusBadgeVariant = (status: string): "default" | "destructive" | "secondary" => {
   switch (status) {
-    case "online":
+    case "connected":
       return "default";
-    case "offline":
+    case "disconnected":
       return "destructive";
-    case "syncing":
-      return "secondary";
     default:
       return "secondary";
   }

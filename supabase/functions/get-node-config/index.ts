@@ -39,16 +39,21 @@ serve(async (req) => {
       return `NODE-${hash}`;
     };
 
+    // Map database status to display status
+    const mapStatus = (dbStatus: string): "connected" | "disconnected" => {
+      return dbStatus === "online" ? "connected" : "disconnected";
+    };
+
     const nodeConfig = {
       wsEndpoint,
       nodes: nodes?.map((n, index) => ({
         name: `Node-${String(index + 1).padStart(2, '0')}`,
         pseudocode: generatePseudocode(n.id),
         role: n.role,
-        region: n.location.split(',')[0] || 'Unknown', // Only show region, not full location
+        region: n.location.split(',')[0] || 'Unknown',
         lat: n.lat,
         lon: n.lon,
-        status: n.status
+        status: mapStatus(n.status)
       })) || [],
       updatedAt: new Date().toISOString()
     };
