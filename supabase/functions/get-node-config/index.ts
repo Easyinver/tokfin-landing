@@ -33,13 +33,19 @@ serve(async (req) => {
       ? `ws://${primaryNode.ip}:${primaryNode.ws_port || 9944}` 
       : null;
 
+    // Generate pseudonyms for public display (security: hide real names/IPs)
+    const generatePseudocode = (id: string) => {
+      const hash = id.slice(0, 8).toUpperCase();
+      return `NODE-${hash}`;
+    };
+
     const nodeConfig = {
       wsEndpoint,
-      nodes: nodes?.map(n => ({
-        name: n.name,
+      nodes: nodes?.map((n, index) => ({
+        name: `Node-${String(index + 1).padStart(2, '0')}`,
+        pseudocode: generatePseudocode(n.id),
         role: n.role,
-        ip: n.ip,
-        location: n.location,
+        region: n.location.split(',')[0] || 'Unknown', // Only show region, not full location
         lat: n.lat,
         lon: n.lon,
         status: n.status
