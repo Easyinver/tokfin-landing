@@ -10,9 +10,9 @@ const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
 interface Node {
   name: string;
+  pseudocode: string;
   role: string;
-  ip: string;
-  location: string;
+  region: string;
   lat: number;
   lon: number;
   status: "online" | "offline" | "syncing";
@@ -162,9 +162,9 @@ export const NetworkMap = () => {
                       <TooltipContent>
                         <div className="space-y-1">
                           <p className="font-semibold">{node.name}</p>
+                          <p className="text-xs font-mono text-primary">{node.pseudocode}</p>
                           <p className="text-sm text-muted-foreground">{node.role}</p>
-                          <p className="text-sm text-muted-foreground">{node.location}</p>
-                          <p className="text-xs font-mono">{node.ip}</p>
+                          <p className="text-sm text-muted-foreground">{node.region}</p>
                         </div>
                       </TooltipContent>
                     </Tooltip>
@@ -190,20 +190,20 @@ export const NetworkMap = () => {
             </CardHeader>
             <CardContent className="space-y-2 text-sm">
               <div>
+                <span className="text-muted-foreground">ID:</span>{" "}
+                <span className="font-mono text-xs text-primary">{node.pseudocode}</span>
+              </div>
+              <div>
                 <span className="text-muted-foreground">Role:</span>{" "}
                 <span className="font-medium">{node.role}</span>
               </div>
               <div>
-                <span className="text-muted-foreground">IP:</span>{" "}
-                <span className="font-mono text-xs">{node.ip}</span>
+                <span className="text-muted-foreground">Region:</span>{" "}
+                <span>{node.region}</span>
               </div>
               <div>
-                <span className="text-muted-foreground">Location:</span>{" "}
-                <span>{node.location}</span>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Last Update:</span>{" "}
-                <span>{new Date().toLocaleTimeString()}</span>
+                <span className="text-muted-foreground">Status:</span>{" "}
+                <span className="capitalize">{node.status}</span>
               </div>
             </CardContent>
           </Card>
