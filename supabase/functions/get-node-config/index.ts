@@ -6,22 +6,29 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Health check: try to connect to node's WebSocket port
-async function checkNodeHealth(ip: string, port: number, timeoutMs = 3000): Promise<boolean> {
+// Health check: try HTTP RPC endpoint (Substrate exposes HTTP on same port as WS)
+async function checkNodeHealth(ip: string, port: number, timeoutMs = 5000): Promise<boolean> {
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
     
-    // Try TCP connection to the WebSocket port
-    const conn = await Deno.connect({
-      hostname: ip,
-      port: port,
-      transport: "tcp",
+    // Substrate nodes expose an HTTP RPC endpoint on the same port
+    const response = await fetch(`http://${ip}:${port}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'system_health',
+        params: []
+      }),
+      signal: controller.signal,
     });
     
     clearTimeout(timeoutId);
-    conn.close();
-    return true;
+    const data = await response.json();
+    console.log(`Node ${ip}:${port} health:`, data);
+    return !!data?.result;
   } catch (error) {
     console.log(`Node ${ip}:${port} health check failed:`, error.message);
     return false;
