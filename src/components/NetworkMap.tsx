@@ -86,9 +86,10 @@ export const NetworkMap = () => {
           <CardContent className="p-0">
             <div className="w-full h-[500px] bg-muted/20 rounded-b-lg overflow-hidden">
               <ComposableMap
-                projection="geoMercator"
+                projection="geoEqualEarth"
                 projectionConfig={{
-                  scale: 147,
+                  scale: 160,
+                  center: [20, 20],
                 }}
               >
                 <Geographies geography={geoUrl}>
