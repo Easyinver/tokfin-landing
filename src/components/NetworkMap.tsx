@@ -88,8 +88,8 @@ export const NetworkMap = () => {
               <ComposableMap
                 projection="geoEqualEarth"
                 projectionConfig={{
-                  scale: 160,
-                  center: [20, 20],
+                  scale: 140,
+                  center: [30, 25],
                 }}
               >
                 <Geographies geography={geoUrl}>
