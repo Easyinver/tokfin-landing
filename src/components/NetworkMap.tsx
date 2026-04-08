@@ -86,10 +86,13 @@ export const NetworkMap = () => {
           <CardContent className="p-0">
             <div className="w-full h-[500px] bg-muted/20 rounded-b-lg overflow-hidden">
               <ComposableMap
-                projection="geoMercator"
+                projection="geoNaturalEarth1"
                 projectionConfig={{
-                  scale: 147,
+                  scale: 120,
+                  center: [40, 20],
                 }}
+                width={800}
+                height={450}
               >
                 <Geographies geography={geoUrl}>
                   {({ geographies }) =>
