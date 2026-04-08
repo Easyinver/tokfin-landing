@@ -21,11 +21,11 @@ interface Node {
 const getStatusColor = (status: string) => {
   switch (status) {
     case "connected":
-      return "hsl(var(--chart-2))";
+      return "#22c55e";
     case "disconnected":
-      return "hsl(var(--destructive))";
+      return "#ef4444";
     default:
-      return "hsl(var(--muted))";
+      return "#6b7280";
   }
 };
 
