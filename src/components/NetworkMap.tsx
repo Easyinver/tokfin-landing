@@ -16,6 +16,12 @@ interface Node {
   lat: number;
   lon: number;
   status: "connected" | "disconnected";
+  peerCount: number;
+}
+
+interface Connection {
+  from: number;
+  to: number;
 }
 
 const getStatusColor = (status: string) => {
@@ -43,28 +49,25 @@ const getStatusBadgeVariant = (status: string): "default" | "destructive" | "sec
 export const NetworkMap = () => {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [nodes, setNodes] = useState<Node[]>([]);
+  const [connections, setConnections] = useState<Connection[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchNodes = async () => {
       try {
         const { data, error } = await supabase.functions.invoke('get-node-config');
-        
         if (error) {
           console.error("Error fetching node config:", error);
           return;
         }
-
-        if (data?.nodes) {
-          setNodes(data.nodes);
-        }
+        if (data?.nodes) setNodes(data.nodes);
+        if (data?.connections) setConnections(data.connections);
       } catch (error) {
         console.error("Error fetching nodes:", error);
       } finally {
         setIsLoading(false);
       }
     };
-
     fetchNodes();
   }, []);
 
@@ -87,10 +90,7 @@ export const NetworkMap = () => {
             <div className="w-full h-[500px] bg-muted/20 rounded-b-lg overflow-hidden">
               <ComposableMap
                 projection="geoNaturalEarth1"
-                projectionConfig={{
-                  scale: 120,
-                  center: [40, 20],
-                }}
+                projectionConfig={{ scale: 120, center: [40, 20] }}
                 width={800}
                 height={450}
               >
@@ -113,20 +113,23 @@ export const NetworkMap = () => {
                   }
                 </Geographies>
 
-                {/* Connection Lines */}
-                {nodes.map((fromNode, i) =>
-                  nodes.slice(i + 1).map((toNode, j) => (
+                {/* Verified Connection Lines */}
+                {connections.map((conn) => {
+                  const fromNode = nodes[conn.from];
+                  const toNode = nodes[conn.to];
+                  if (!fromNode || !toNode) return null;
+                  return (
                     <Line
-                      key={`${fromNode.name}-${toNode.name}`}
+                      key={`${conn.from}-${conn.to}`}
                       from={[fromNode.lon, fromNode.lat]}
                       to={[toNode.lon, toNode.lat]}
-                      stroke="hsl(var(--primary))"
-                      strokeWidth={1}
-                      strokeOpacity={0.3}
+                      stroke="#22c55e"
+                      strokeWidth={2}
+                      strokeOpacity={0.6}
                       strokeLinecap="round"
                     />
-                  ))
-                )}
+                  );
+                })}
 
                 {/* Node Markers */}
                 {nodes.map((node) => (
@@ -143,18 +146,10 @@ export const NetworkMap = () => {
                             fill={getStatusColor(node.status)}
                             stroke="hsl(var(--background))"
                             strokeWidth={2}
-                            style={{
-                              cursor: "pointer",
-                              transition: "all 0.2s ease",
-                            }}
+                            style={{ cursor: "pointer", transition: "all 0.2s ease" }}
                           />
                           {hoveredNode === node.name && (
-                            <circle
-                              r={12}
-                              fill={getStatusColor(node.status)}
-                              fillOpacity={0.2}
-                              stroke="none"
-                            />
+                            <circle r={12} fill={getStatusColor(node.status)} fillOpacity={0.2} stroke="none" />
                           )}
                         </Marker>
                       </TooltipTrigger>
@@ -164,6 +159,7 @@ export const NetworkMap = () => {
                           <p className="text-xs font-mono text-primary">{node.pseudocode}</p>
                           <p className="text-sm text-muted-foreground">{node.role}</p>
                           <p className="text-sm text-muted-foreground">{node.region}</p>
+                          <p className="text-sm text-muted-foreground">Peers: {node.peerCount}</p>
                         </div>
                       </TooltipContent>
                     </Tooltip>
@@ -182,9 +178,7 @@ export const NetworkMap = () => {
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-base">{node.name}</CardTitle>
-                <Badge variant={getStatusBadgeVariant(node.status)}>
-                  {node.status}
-                </Badge>
+                <Badge variant={getStatusBadgeVariant(node.status)}>{node.status}</Badge>
               </div>
             </CardHeader>
             <CardContent className="space-y-2 text-sm">
@@ -199,6 +193,10 @@ export const NetworkMap = () => {
               <div>
                 <span className="text-muted-foreground">Region:</span>{" "}
                 <span>{node.region}</span>
+              </div>
+              <div>
+                <span className="text-muted-foreground">Peers:</span>{" "}
+                <span className="font-medium">{node.peerCount}</span>
               </div>
               <div>
                 <span className="text-muted-foreground">Status:</span>{" "}

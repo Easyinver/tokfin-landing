@@ -6,32 +6,23 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Health check: try HTTP RPC endpoint (Substrate exposes HTTP on same port as WS)
-async function checkNodeHealth(ip: string, port: number, timeoutMs = 5000): Promise<boolean> {
+async function rpcCall(ip: string, port: number, method: string, timeoutMs = 5000) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-    
-    // Substrate nodes expose an HTTP RPC endpoint on the same port
     const response = await fetch(`http://${ip}:${port}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        jsonrpc: '2.0',
-        id: 1,
-        method: 'system_health',
-        params: []
-      }),
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params: [] }),
       signal: controller.signal,
     });
-    
     clearTimeout(timeoutId);
     const data = await response.json();
-    console.log(`Node ${ip}:${port} health:`, data);
-    return !!data?.result;
+    return data?.result ?? null;
   } catch (error) {
-    console.log(`Node ${ip}:${port} health check failed:`, error.message);
-    return false;
+    clearTimeout(timeoutId);
+    console.log(`RPC ${method} to ${ip}:${port} failed:`, error.message);
+    return null;
   }
 }
 
@@ -45,64 +36,83 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Fetch nodes from database
     const { data: nodes, error } = await supabase
       .from('tokfin_network_config')
       .select('*')
       .order('is_primary', { ascending: false });
 
-    if (error) {
-      console.error("Error fetching nodes:", error);
-      throw error;
-    }
+    if (error) throw error;
 
-    // Generate pseudonyms for public display (security: hide real names/IPs)
-    const generatePseudocode = (id: string) => {
-      const hash = id.slice(0, 8).toUpperCase();
-      return `NODE-${hash}`;
-    };
+    const generatePseudocode = (id: string) => `NODE-${id.slice(0, 8).toUpperCase()}`;
 
-    // Check health of all nodes in parallel
-    const healthChecks = await Promise.all(
+    // For each node: check health, get local peer ID, and get connected peers
+    const nodeInfo = await Promise.all(
       (nodes || []).map(async (n) => {
-        const isConnected = await checkNodeHealth(n.ip, n.ws_port || 9944);
-        return { id: n.id, isConnected };
+        const [health, localPeerId, peers] = await Promise.all([
+          rpcCall(n.ip, n.ws_port || 9944, 'system_health'),
+          rpcCall(n.ip, n.ws_port || 9944, 'system_localPeerId'),
+          rpcCall(n.ip, n.ws_port || 9944, 'system_peers'),
+        ]);
+        return {
+          id: n.id,
+          isConnected: !!health,
+          localPeerId: localPeerId as string | null,
+          connectedPeerIds: Array.isArray(peers) ? peers.map((p: any) => p.peerId as string) : [],
+        };
       })
     );
 
-    const healthMap = new Map(healthChecks.map(h => [h.id, h.isConnected]));
+    const infoMap = new Map(nodeInfo.map(i => [i.id, i]));
 
-    // Find primary node that is actually connected
-    const primaryNode = nodes?.find(n => n.is_primary && healthMap.get(n.id)) 
-      || nodes?.find(n => healthMap.get(n.id))
-      || nodes?.[0];
-    
-    const wsEndpoint = primaryNode 
-      ? `ws://${primaryNode.ip}:${primaryNode.ws_port || 9944}` 
+    // Build verified connections: a link exists if node A sees node B's peerId in its peers list
+    const connections: { from: number; to: number }[] = [];
+    const nodeList = nodes || [];
+    for (let i = 0; i < nodeList.length; i++) {
+      for (let j = i + 1; j < nodeList.length; j++) {
+        const infoA = infoMap.get(nodeList[i].id);
+        const infoB = infoMap.get(nodeList[j].id);
+        if (!infoA || !infoB) continue;
+        // Connection verified if either node sees the other as a peer
+        const aSeesB = infoB.localPeerId && infoA.connectedPeerIds.includes(infoB.localPeerId);
+        const bSeesA = infoA.localPeerId && infoB.connectedPeerIds.includes(infoA.localPeerId);
+        if (aSeesB || bSeesA) {
+          connections.push({ from: i, to: j });
+        }
+      }
+    }
+
+    const primaryNode = nodeList.find(n => n.is_primary && infoMap.get(n.id)?.isConnected)
+      || nodeList.find(n => infoMap.get(n.id)?.isConnected)
+      || nodeList[0];
+
+    const wsEndpoint = primaryNode
+      ? `ws://${primaryNode.ip}:${primaryNode.ws_port || 9944}`
       : null;
 
     const nodeConfig = {
       wsEndpoint,
-      nodes: nodes?.map((n, index) => ({
+      nodes: nodeList.map((n, index) => ({
         name: `Node-${String(index + 1).padStart(2, '0')}`,
         pseudocode: generatePseudocode(n.id),
         role: n.role,
         region: n.location.split(',')[0] || 'Unknown',
         lat: n.lat,
         lon: n.lon,
-        status: healthMap.get(n.id) ? "connected" : "disconnected"
-      })) || [],
+        status: infoMap.get(n.id)?.isConnected ? "connected" : "disconnected",
+        peerCount: infoMap.get(n.id)?.connectedPeerIds.length ?? 0,
+      })),
+      connections,
       updatedAt: new Date().toISOString()
     };
 
-    console.log("Returning node configuration with health checks:", nodeConfig);
+    console.log("Node config with verified connections:", JSON.stringify(nodeConfig));
 
     return new Response(JSON.stringify(nodeConfig), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,
     });
   } catch (error) {
-    console.error("Error returning node config:", error);
+    console.error("Error:", error);
     return new Response(JSON.stringify({ error: error.message }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 500,
