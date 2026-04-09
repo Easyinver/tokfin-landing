@@ -33,19 +33,31 @@ const POLL_INTERVAL = 10000;
 const NetworkExplorer = () => {
   const navigate = useNavigate();
   const [chainData, setChainData] = useState<ChainData | null>(null);
+  const [connectedNodesCount, setConnectedNodesCount] = useState<number>(0);
+  const [totalNodesCount, setTotalNodesCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchChainData = useCallback(async () => {
     try {
-      const { data, error: fnError } = await supabase.functions.invoke('substrate-proxy');
+      const [chainRes, nodesRes] = await Promise.all([
+        supabase.functions.invoke('substrate-proxy'),
+        supabase.functions.invoke('get-node-config'),
+      ]);
       
-      if (fnError) {
+      if (chainRes.error) {
         setError("Error connecting to network");
         return;
       }
 
-      setChainData(data as ChainData);
+      setChainData(chainRes.data as ChainData);
+
+      if (nodesRes.data?.nodes) {
+        const nodes = nodesRes.data.nodes as { status: string }[];
+        setTotalNodesCount(nodes.length);
+        setConnectedNodesCount(nodes.filter(n => n.status === "connected").length);
+      }
+
       setError(null);
     } catch (e) {
       setError("Error fetching chain data");
@@ -120,7 +132,7 @@ const NetworkExplorer = () => {
                   <CardTitle className="text-sm">Connected Nodes</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-2xl font-bold">{chainData?.peerCount ?? 0}</p>
+                  <p className="text-2xl font-bold">{connectedNodesCount} / {totalNodesCount}</p>
                   {chainData?.isSyncing && (
                     <Badge variant="secondary" className="mt-2">Syncing</Badge>
                   )}
