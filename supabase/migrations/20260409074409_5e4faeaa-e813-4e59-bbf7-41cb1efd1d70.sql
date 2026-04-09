@@ -1,0 +1,1 @@
+UPDATE tokfin_network_config SET role = 'Full Node' WHERE role = 'Validator';
