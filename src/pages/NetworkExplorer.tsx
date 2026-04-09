@@ -117,7 +117,7 @@ const NetworkExplorer = () => {
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-sm">Connected Peers</CardTitle>
+                  <CardTitle className="text-sm">Connected Nodes</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-2xl font-bold">{chainData?.peerCount ?? 0}</p>
